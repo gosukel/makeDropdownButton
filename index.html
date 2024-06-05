@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="makeDropdownStyle.css" />
+    <script type="module" src="index.js" defer></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="dropdown-div">
+        <button class="dropdown-btn">Test</button>
+        <div class="dropdown-content">
+          <a href="#" class="dropdown-link">One</a>
+          <a href="#" class="dropdown-link">Two</a>
+          <a href="#" class="dropdown-link">Three</a>
+        </div>
+      </div>
+      <div class="parent"></div>
+    </div>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero harum
+      incidunt reprehenderit debitis a, nihil porro illum perspiciatis quia
+      aliquid laborum nisi iste, consequatur eaque quisquam facere, natus
+      laudantium magni?
+    </p>
+    <script>
+      // btn event listener
+      document.querySelector(".dropdown-btn").addEventListener("click", (e) => {
+        console.log(e.target.nextElementSibling);
+        e.target.classList.toggle("active");
+        e.target.nextElementSibling.classList.toggle("active");
+      });
+
+      // link event listener
+      document.querySelectorAll(".dropdown-link").forEach((link) => {
+        link.addEventListener("click", (e) => {
+          if (link.parentElement.classList.contains("active")) {
+            console.log(link.textContent);
+          }
+        });
+      });
+
+      // 'click away' event listener
+      document.addEventListener("click", (e) => {
+        const isDropdownBtn = e.target.matches(".dropdown-btn");
+        if (
+          !isDropdownBtn &&
+          (e.target.closest(".dropdown-div") != null ||
+            e.target.closest(".dropdown-content") != null)
+        ) {
+          return;
+        }
+
+        let currentDropdown;
+        if (isDropdownBtn) {
+          currentDropdown = e.target.closest(".dropdown-btn");
+        }
+
+        document
+          .querySelectorAll(".dropdown-btn.active")
+          .forEach((dropdown) => {
+            if (dropdown === currentDropdown) return;
+            dropdown.classList.remove("active");
+            dropdown.nextElementSibling.classList.remove("active");
+          });
+      });
+    </script>
+  </body>
+</html>
